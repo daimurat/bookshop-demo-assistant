@@ -1,0 +1,7 @@
+chromadb
+fastapi==0.115.12
+langchain-core==0.3.56
+langchain-chroma==0.2.3
+langchain-openai
+python-dotenv
+uvicorn
