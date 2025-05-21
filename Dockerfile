@@ -13,4 +13,4 @@ COPY ./app /code/app
 ENV OPENAI_API_KEY=${OPENAI_API_KEY}
 ENV CHROMA_COLLECTION_NAME='books'
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9000"]
