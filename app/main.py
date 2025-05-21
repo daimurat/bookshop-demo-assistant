@@ -13,6 +13,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# TODO: temporarily use inmemory storage
+@app.on_event("startup")
+def startup_event():
+    print("Startup event called")
+    try:
+        ingest_data()
+    except Exception as e:
+        print(f"ingest_data failed: {e}")
+        raise
+
+
 app.include_router(assistant.router)
 
 @app.get("/")
