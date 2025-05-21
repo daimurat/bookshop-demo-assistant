@@ -1,9 +1,20 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import assistant
 from ingest import ingest_data
 
-app = FastAPI()
+# TODO: temporarily use inmemory storage
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:
+        ingest_data()
+    except Exception as e:
+        print(f"ingest_data failed: {e}")
+        raise
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -12,17 +23,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# TODO: temporarily use inmemory storage
-@app.on_event("startup")
-def startup_event():
-    print("Startup event called")
-    try:
-        ingest_data()
-    except Exception as e:
-        print(f"ingest_data failed: {e}")
-        raise
-
 
 app.include_router(assistant.router)
 
