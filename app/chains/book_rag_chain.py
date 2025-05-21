@@ -6,7 +6,9 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+import weave
 
+@weave.op()
 def get_rag_chain():
     prompt = ChatPromptTemplate.from_template('''\
         以下の文章だけを踏まえて回答してください。
